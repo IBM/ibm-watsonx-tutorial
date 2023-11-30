@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>CV Sceening</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;900&family=Ubuntu:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
+
+  
+  <section id="title">
+  <body>
+    <h1>CV Screening</h1>
+
+        <h3>RAG based Automation of CV Screeing using Watsonx Platform</h3>
+    </section>
+    <hr>
+     
+    <div class="col-lg-6 col-md-12">
+      <h2>Upload Sample CVs</h2>
+      <p  id="uploader">Upload Sample CVS in Watsonx.data (Presto Engin)</p>
+      <textarea name="message" id="message" cols="30" rows="5" >./data/cv1.docx 
+./data/cv2.docx 
+./data/cv3.docx 
+./data/cv4.docx 
+./data/cv5.docx</textarea><br><br>
+      <!-- input type="submit" value="Submit" -->
+      <button onclick="uploadFunction()">Upload</button>
+    </div>
+    <hr>
+
+    <div class="col-lg-6 col-md-12">
+      <h2>Create Knowledgebase</h2>
+      <p id="embedder">Create Knowledgebase  Vector using hangingface MiniLM in MondoDB     </p>
+
+      <!-- input type="submit" value="Submit" -->
+      <button onclick="embeddingFunction()">Embedding</button>
+      </div>
+     
+      <hr>
+      <div class="col-lg-6 col-md-12">
+        <h2>Chat Bot in right corner</h2>
+        <p>Watsonx.Assistant bot provides to ask prompt and generate text using Watsonx.ai</p>
+        </div>
+        <hr>
+
+
+      
+	<script>
+	async function testFunc(){
+	}
+	</script>
+	
+	<script>
+	async function uploadFunction() {
+		alert('Upload Starting..')
+		const url = 'http://127.0.0.1:8000/process_all_cvs/';
+		const data = {
+            "cv_docx_files": ["WatsonxPrj/data/cv1.docx", "WatsonxPrj/data/cv2.docx", "WatsonxPrj/data/cv3.docx", "WatsonxPrj/data/cv4.docx", "WatsonxPrj/data/cv5.docx"],
+            "cv_csv_folder" : "WatsonxPrj/data",
+            "cv_wxd_table" : "cv_data",
+            "cv_wxd_target_table" : "profile_target_cv"
+        }
+		try {
+			await fetch(
+			    url,
+			    {
+					method: "POST",
+			        headers: { 
+						'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+                		'Content-Type': 'application/json;charset=UTF-8'
+						},
+			        body: JSON.stringify(data)
+			    }
+			)
+			.then(response => {
+			    //handle response            
+			    console.log(response);
+			  })
+			.then(data => data.json())
+			.then((json) => {
+			    alert(JSON.stringify(json));
+			});
+		}
+		catch (error) {
+		  // TypeError: Failed to fetch
+		  console.log('There was an error', error);
+		}
+
+		alert('Done')
+	  	document.getElementById("uploader").innerHTML = "<font color='red'><b>Upload completed</b></font>";
+	}
+	</script>
+	
+	<script>
+	async  function embeddingFunction() {
+		alert('Knowledge Embedding Started..')
+		const url = 'http://127.0.0.1:8000/embeddings/';
+		const data = { "cv_wxd_table": "profile_cv"};
+		try {
+			await fetch(
+			    url,
+			    {
+					method: "POST",
+			        headers: { 
+						'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
+                		'Content-Type': 'application/json;charset=UTF-8'
+						},
+			        body: JSON.stringify(data)
+			    }
+			)
+			.then(response => {
+			    //handle response            
+			    console.log(response);
+			  })
+			.then(data => data.json())
+			.then((json) => {
+			    alert(JSON.stringify(json));
+			});
+		}
+		catch (error) {
+		  // TypeError: Failed to fetch
+		  console.log('There was an error', error);
+		}
+
+		alert('Done')
+		
+	  	document.getElementById("embedder").innerHTML = "<font color='red'><b>Embeddings completed</b></font>";
+	}
+	
+	
+	</script>
+   
+   <!--  Watsonx. Assistant Bot Integrator -->   
+	<script>
+	  window.watsonAssistantChatOptions = {
+	    integrationID: "65XXXXXXXXXXb", // The ID of this integration.
+	    region: "jp-tok", // The region your integration is hosted in.
+	    serviceInstanceID: "0XXXXXXXXXa", // The ID of your service instance.
+	    onLoad: function(instance) { instance.render(); }
+	  };
+	  setTimeout(function(){
+	    const t=document.createElement('script');
+	    t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+	    document.head.appendChild(t);
+	  });
+	</script>
+  </body>
+</html>
