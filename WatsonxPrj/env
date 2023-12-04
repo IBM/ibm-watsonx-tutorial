@@ -1,0 +1,20 @@
+# WatsonX.ai
+WATSONX_URL="https://us-south.ml.cloud.ibm.com/ml/v1-beta/generation/text"
+WATSONX_LLM_NAME=meta-llama/llama-2-70b-chat
+WATSONX_MIN_NEW_TOKENS=1
+WATSONX_MAX_NEW_TOKENS=300
+WATSONX_PROMPT="Document:\n\n<<CONTEXT>>\n\nQuestion:\n\n<<QUESTION>>\n\nAnswer:\n\n"
+WATSONX_PROJECT_ID=<project id>
+WATSONX_VERSION="2023-05-29"
+
+# IBM Cloud
+IBMCLOUD_APIKEY=<IBM API KEY>
+
+# HUGGINGFACE
+HF_BASE_URL = https://api-inference.huggingface.co
+HF_EMBEDDING_MODEL = all-MiniLM-L6-v2
+HF_TOKEN = <Huggingface API token>
+
+# MONGODB
+MONGODB_CONN_URL=<Mongo Connection URL>
+MONGODB_DB_NAME=mytest_DB
